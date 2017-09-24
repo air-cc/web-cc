@@ -46,29 +46,31 @@
   - client/
     - lib/
       - jQuery.min.js
+    - common
+      - assets/
+      - components/
+        - layout/
+          - assets/
+          - layout.html
+          - layout.js
+          - layout.css
+        - header/
+        - footer/
+      - services/
+        - user/
+        - posts/
+      - utils/
+        - data-format.js
     - pages/
       - home/
+        - assets/
+          - home.png
+        - components/
+          - home-list/
         - home.html
         - home.js
         - home.css
-        - components/
-          - home-list/
-        - assets/
-          - home.png
-    - components/
-      - layout/
-        - layout.html
-        - layout.js
-        - layout.css
-        - assets/
-      - header/
-      - footer/
-    - assets/
-    - services/
-      - user/
-      - posts/
-    - utils/
-      - data-format.js
+      - aboutus/
   - server/
     - router/
       - index.js
