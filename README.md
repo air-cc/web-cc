@@ -27,7 +27,7 @@
 
 - Node 8.x
 - Koa 2.x
-- Swig
+- Handlebar
 - Less / PostCSS 
 
 ### 辅助
