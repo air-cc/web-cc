@@ -6,7 +6,7 @@ const statAsync = promisify(stat)
 const pathJoin = require('path').join
 const debug = require('debug')('good-web:frontend:parser')
 
-const clientDir = pathJoin(__dirname, '../../../client')
+const clientDir = pathJoin(__dirname, '../client')
 const commonDir = pathJoin(clientDir, 'common')
 
 const checkFile = async (dir, fileName = '') => {
@@ -76,6 +76,7 @@ const parser = async (componentDir) => {
   const {name, dependencies} = des
 
   const component = componentIns(des)
+  component.dir = componentDir
 
   // append dependencies
   const depNames = (typeof dependencies === 'object') ? Object.keys(dependencies) : []
@@ -84,44 +85,21 @@ const parser = async (componentDir) => {
     component.deps = await Promise.all(componentsDir.map(parser))
   }
 
-  // deps.forEach((dep) => {
-  //   dep.html.forEach(component.html.add, component.html)
-  //   dep.js.forEach(component.js.add, component.js)
-  //   dep.css.forEach(component.css.add, component.css)
-  //   dep.img.forEach(component.img.add, component.img)
-  // })
-
-  // const append = async (component, baseDir) => {
-  //   const promises = ['html', 'js', 'css'].map(async (ext) => {
-  //     const filePath = pathJoin(baseDir, `${component.name}.${ext}`)
-  //     if (await checkFile(filePath)) {
-  //       component[ext].add(filePath)
-  //     }
-  //   })
-
-  //   await Promise.all(promises)
-  // }
-
-  // await append(component, componentDir)
-
   // html
   const htmlFilePath = pathJoin(componentDir, `${name}.html`)
   if (await checkFile(htmlFilePath)) {
-    // component.html.add(htmlFilePath)
     component.html = htmlFilePath
   }
 
   // js
   const jsFilePath = pathJoin(componentDir, `${name}.js`)
   if (await checkFile(jsFilePath)) {
-    // component.js.add(jsFilePath)
     component.js = jsFilePath
   }
 
   // css
   const cssFilePath = pathJoin(componentDir, `${name}.css`)
   if (await checkFile(cssFilePath)) {
-    // component.css.add(cssFilePath)
     component.css = cssFilePath
   }
 
@@ -131,6 +109,8 @@ const parser = async (componentDir) => {
   return component
 }
 
+module.exports = parser
+
 // for test
 // const pagesDir = pathJoin(clientDir, 'pages')
 // parser(pathJoin(pagesDir, 'home')).then((component) => {
@@ -138,5 +118,3 @@ const parser = async (componentDir) => {
 // }).catch((e) => {
 //   console.log(e)
 // })
-
-module.exports = parser

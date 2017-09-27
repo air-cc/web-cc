@@ -1,5 +1,5 @@
 import $ from 'jquery'
 
-$('button').onClick(function () {
+$('button').on('click', function () {
   alert('Hi!')
 })

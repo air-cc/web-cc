@@ -23,7 +23,7 @@ const registerPartial = async (name, filePath) => {
 }
 
 const templateIns = async (name, filePath) => {
-  if (_templates[name]) return _templates[name]
+  if (name !== 'layout' && _templates[name]) return _templates[name]
   if (!filePath) return null
 
   const content = await readFileAsync(filePath, 'utf8')
@@ -49,5 +49,6 @@ const compiler = async ({name, html, deps}) => {
 }
 
 compiler.templateIns = templateIns
+compiler.registerPartial = registerPartial
 
 module.exports = compiler

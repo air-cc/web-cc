@@ -1,5 +1,5 @@
 module.exports = async (ctx) => {
-  ctx.body = {
-    page: 'home'
-  }
+  await ctx.render('home', {
+    data: {page: 'home-cc', msg: 'hello world'}
+  })
 }
