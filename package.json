@@ -19,6 +19,7 @@
     "koa-router": "^7.2.1"
   },
   "devDependencies": {
+    "browser-sync": "^2.18.13",
     "clean-webpack-plugin": "^0.1.16",
     "css-loader": "^0.28.7",
     "eslint": "^4.7.2",
