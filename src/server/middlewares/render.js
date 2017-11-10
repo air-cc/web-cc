@@ -16,20 +16,19 @@ module.exports = (opts) => {
   const distDir = opts.distDir
   let urlPrefix = opts.urlPrefix
   urlPrefix = urlPrefix.match(/\/$/) ? urlPrefix : `${urlPrefix}/`
+  const defaultCache = typeof opts.cache === 'boolean' ? opts.cache : true
 
   return async (ctx, next) => {
-    ctx.render = async (pageName, pageData = {title: '', layout: defaultLayout, data: {}}) => {
+    ctx.render = async (pageName, pageData = {title: '', layout: defaultLayout, cache: defaultCache, data: {}}) => {
       const typ = (typeof pageData)
       assert(typ === 'object', `pageData must be an object or undefined`)
 
       const title = (typeof pageData.title === 'string') ? pageData.title : pageName
-      const layout = pageData.layout || defaultLayout
-      assert(layout, `no layout file found`)
-
-      const data = pageData.data || {}
+      const {layout = defaultLayout, cache = defaultCache, data = {}} = pageData
+      // assert(layout, `no layout file found`)
 
       const dir = pathJoin(pagesDir, pageName)
-      const html = await render(dir, {title, layout, distDir, urlPrefix, data})
+      const html = await render(dir, {title, layout, distDir, urlPrefix, cache, data})
       ctx.type = 'html'
       ctx.body = html
     }

@@ -44,9 +44,9 @@ const traverser = async ({entry, layout, urlPrefix, distDir}) => {
   return result
 }
 
-compiler.traverser = traverser
+traverser.compiler = compiler
 
-module.exports = compiler
+module.exports = traverser
 
 // for test
 if (process.env.FE) {

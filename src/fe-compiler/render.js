@@ -92,9 +92,9 @@ const jsCssParser = async ({component, urlPrefix, distDir}) => {
   return {js, css}
 }
 
-const pageParser = async ({component, data, distDir, urlPrefix = ''}) => {
+const pageParser = async ({component, data, distDir, urlPrefix = '', cache}) => {
   // html
-  const template = await templateCompiler(component)
+  const template = await templateCompiler(component, {cache})
   const html = template(data)
 
   const {js, css} = await jsCssParser({component, distDir, urlPrefix})
@@ -116,12 +116,12 @@ const pageParser = async ({component, data, distDir, urlPrefix = ''}) => {
  * @param {String} option.urlPrefix 静态资源 url 前缀
  * @param {Object} option.data      页面数据
  */
-const render = async (dir, {title = '', layout, distDir = '', urlPrefix = '', data = {}}) => {
+const render = async (dir, {title = '', layout, cache, distDir = '', urlPrefix = '', data = {}}) => {
   const component = await getCompiledComponent(dir, {distDir})
-  const {html, js, css} = await pageParser({component, data, distDir, urlPrefix})
+  const {html, js, css} = await pageParser({component, data, distDir, urlPrefix, cache})
 
   const layoutComponent = await getCompiledComponent(layout, {distDir})
-  const layoutTemplate = await templateCompiler(layoutComponent)
+  const layoutTemplate = await templateCompiler(layoutComponent, {cache})
   const layoutjsCss = await jsCssParser({
     component: layoutComponent,
     urlPrefix,

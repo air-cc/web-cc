@@ -24,7 +24,6 @@ const updatePublicMap = async ({chunks}, assetsList, filePath) => {
     modules.forEach(({id, name, assets}) => {
       const file = pathJoin(CWD, name)
       if (~assetsList.indexOf(file) && assets && assets.length) {
-        console.log(file, assets[0])
         publicMap[file] = assets[0]
       }
     })

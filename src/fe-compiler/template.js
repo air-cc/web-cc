@@ -10,41 +10,54 @@ const pathJoin = require('path').join
 handlebars.registerHelper(layouts(handlebars))
 
 const _templates = {}
-const _cache = new Set()
+const tmplGet = (name) => {
+  return _templates[name]
+}
 
-// const getHTMLContent = async (name, filePath) => {
-//   const mapFile = pathJoin(compiledHTMLDir, name, 'html-map.json')
-//   const mapDataStr = await readFileAsync(mapFile, 'utf8')
-//   const mapData = JSON.stringify(mapDataStr)
-//   const realFilePath = mapData[filePath]
-//   const htmlData = await readFileAsync(realFilePath, 'utf8')
+const tmplAdd = (name, data) => {
+  _templates[name] = data
+}
 
-//   return htmlData
-// }
+const _partials = new Set()
+const partHas = (name) => {
+  return _partials.has(name)
+}
 
-const registerPartial = async (name, filePath) => {
-  if (_cache.has(name)) return true
+const partAdd = (name) => {
+  _partials.add(name)
+}
+
+const registerPartial = async (name, filePath, cache) => {
+  if (cache && partHas(name)) return true
+
   if (!filePath) return false
 
   const tempContent = await readFileAsync(filePath, 'utf8')
   handlebars.registerPartial(name, tempContent)
-  _cache.add(name)
+
+  cache && partAdd(name)
 
   return true
 }
 
-const templateIns = async (name, filePath) => {
-  if (name !== 'layout' && _templates[name]) return _templates[name]
+const templateIns = async (name, filePath, cache) => {
+  let template = tmplGet(name)
+  if (cache && template) return template
+
   if (!filePath) return null
 
   const content = await readFileAsync(filePath, 'utf8')
-  const template = _templates[name] = handlebars.compile(content)
+  template = handlebars.compile(content)
+
+  cache && tmplAdd(name, template)
+
   return template
 }
 
 // template compile
-const compiler = async ({name, html, deps}) => {
-  let template = await templateIns(name)
+const compiler = async ({name, html, deps}, opt = {cache: false}) => {
+  const cache = opt.cache
+  let template = await templateIns(name, null, cache)
   if (template) return template
 
   // dependencies
@@ -53,9 +66,9 @@ const compiler = async ({name, html, deps}) => {
   }
 
   // self
-  await registerPartial(name, html)
+  await registerPartial(name, html, cache)
 
-  template = await templateIns(name, html)
+  template = await templateIns(name, html, cache)
   return template
 }
 

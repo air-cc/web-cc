@@ -15,7 +15,8 @@ app.use(render({
   pages: pathJoin(__dirname, '../client/pages'),
   layout: pathJoin(__dirname, '../client/common/components/layout'),
   distDir,
-  urlPrefix
+  urlPrefix,
+  cache: false
 }))
 
 app.use(router.routes())
@@ -24,9 +25,22 @@ app.use(router.allowedMethods())
 // 注意 static 路由加载必须在 router 后面
 app.use(stetic(distDir, urlPrefix))
 
-const server = app.listen(config.app.port, '127.0.0.1', () => {
-  debug('app running')
+app.run = (cb) => {
+  const server = app.listen(config.app.port, '127.0.0.1', () => {
+    debug('app running')
+    const address = server.address()
+    console.log(`server listening at: http://${address.address}:${address.port}`)
 
-  const address = server.address()
-  console.log(`server listening at: http://${address.address}:${address.port}`)
-})
+    if (typeof cb === 'function') {
+      cb()
+    }
+  })
+
+  return server
+}
+
+if (module === require.main) {
+  app.run()
+}
+
+module.exports = app
