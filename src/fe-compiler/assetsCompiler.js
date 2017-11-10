@@ -155,9 +155,17 @@ const webpackCompile = async (opts) => {
 const retrieve = (type, component) => {
   const searching = (component) => {
     const deps = component.deps
-    const asset = component[type]
+    let asset = component[type]
 
     let assets = new Set()
+
+    if (!asset) return assets
+
+    if (!Array.isArray(asset)) {
+      asset = [asset]
+    }
+
+    if (asset.length === 0) return assets
 
     if (deps.length) {
       assets = deps.map(searching).reduce((items, scriptDeps) => {
@@ -166,7 +174,7 @@ const retrieve = (type, component) => {
       }, assets)
     }
 
-    assets.add(asset)
+    asset.forEach(assets.add, assets)
 
     return assets
   }

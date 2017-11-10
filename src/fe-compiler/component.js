@@ -52,7 +52,6 @@ const componentIns = (des) => {
     html: '',
     js: '',
     css: '',
-    img: '',
     deps: []
   })
 }
