@@ -1,5 +1,5 @@
 import $ from 'jquery'
 
 $('button').on('click', function () {
-  alert('Hi!')
+  alert('Hi! cc')
 })

@@ -1,5 +1,8 @@
 {
   "name": "layout",
   "version": "1.0.0",
-  "dependencies": {}
+  "dependencies": {
+    "header": "~1.0.0",
+    "footer": "~1.0.0"
+  }
 }
