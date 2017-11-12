@@ -16,7 +16,9 @@
 
 5. 项目结构&代码重构
 
-6. 开发辅助：watch / reload
+6. 开发辅助：watch & reload
+  - 前端 watch - [x]
+  - 后端 watch
 
 7. 前端性能优化
 
