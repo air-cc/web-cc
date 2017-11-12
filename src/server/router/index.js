@@ -1,7 +1,7 @@
 const Router = require('koa-router')
 const loader = require('./loader')
-const pages = require('./pages')
-const apis = require('./apis')
+const pages = require('./routes/pages')
+const apis = require('./routes/apis')
 
 const router = new Router()
 
