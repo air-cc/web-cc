@@ -8,6 +8,8 @@ const layout = pathJoin(clientDir, 'common/components/layout')
 const entry = pathJoin(clientDir, 'pages')
 const urlPrefix = '/static'
 
+const serverDir = pathJoin(__dirname, 'server')
+
 async function compileFE () {
   await fe({ layout, entry, urlPrefix, distDir })
 }
@@ -27,5 +29,9 @@ run().then(() => {
 
   bs.watch(clientDir).on('change', () => {
     compileFE().then(bs.reload)
+  })
+
+  bs.watch(serverDir).on('change', () => {
+    console.log('need restart server')
   })
 })
