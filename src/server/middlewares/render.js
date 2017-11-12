@@ -1,5 +1,12 @@
 // 模板渲染脚本
 
+/**
+ * 中间件 - 页面渲染
+ * 
+ * TODO：
+ *  - 这里都是运行时到系统目录中查找文件，可优化
+ */
+
 const assert = require('assert')
 const pathJoin = require('path').join
 const render = require('../../fe-compiler/render')
