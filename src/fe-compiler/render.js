@@ -70,11 +70,11 @@ const jsCssParser = async ({component, urlPrefix, distDir}) => {
     return publicUrls
   }
 
-  const scriptWrapper = (scripts) => {
+  const scriptWrapper = (scripts = []) => {
     return [...scripts].map((script) => `<script src="${script}"></script>`).join('\r\n')
   }
 
-  const styleWrapper = (styles) => {
+  const styleWrapper = (styles = []) => {
     return [...styles].map((style) => `<link rel="stylesheet" type="text/css" href="${style}">`).join('\r\n')
   }
 
