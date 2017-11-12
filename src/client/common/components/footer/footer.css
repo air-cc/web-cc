@@ -1,5 +1,9 @@
 footer {
-  height: 80px;
-  text-align: center;
-  border-top: 1px solid gray;
+  width: 100%;
+  font-size: 16px;
+  color: #777;
+  line-height: 28px;
+  border-top: 1px solid #777;
+  position: fixed;
+  bottom: 0;
 }

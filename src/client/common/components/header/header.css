@@ -1,7 +1,23 @@
 header {
-  height: 48px;
+  color: #777;
   font-size: 36px;
-  line-height: 48px;
   text-align: center;
-  border: 2px solid grey;
+  border-bottom: 2px solid #777;
+}
+
+nav li {
+  margin: 10px;
+  font-size: 20px;
+  list-style-type: none;
+  display: inline-block;
+}
+
+nav a {
+  color: #777;
+}
+
+nav ul:after {
+  display: block;
+  content: '';
+  clear: both;
 }
