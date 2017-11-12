@@ -4,6 +4,7 @@ const pathJoin = require('path').join
 const debug = require('debug')('good-web:app')
 const router = require('./router')
 const render = require('./middlewares/render')
+const markdown = require('./middlewares/markdown')
 const config = require('./config')
 
 const app = new Koa()
@@ -19,12 +20,17 @@ app.use(render({
   cache: false
 }))
 
+app.use(markdown({
+  docs: pathJoin(__dirname, '../docs'),
+  template: 'article'
+}))
+
 app.use(router.routes())
 app.use(router.allowedMethods())
 
-// 注意 static 路由加载必须在 router 后面
-app.use(stetic(distDir, urlPrefix))
+app.use(stetic(distDir, urlPrefix)) // 注意 static 路由加载必须在 router 后面
 
+// 启动服务监听
 app.run = (cb) => {
   const server = app.listen(config.app.port, '127.0.0.1', () => {
     debug('app running')

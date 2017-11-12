@@ -16,7 +16,8 @@
     "handlebars-layouts": "^3.1.4",
     "koa": "^2.3.0",
     "koa-better-serve": "^2.0.7",
-    "koa-router": "^7.2.1"
+    "koa-router": "^7.2.1",
+    "marked": "^0.3.6"
   },
   "devDependencies": {
     "browser-sync": "^2.18.13",
