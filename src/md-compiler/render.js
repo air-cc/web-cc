@@ -1,7 +1,8 @@
 const promisify = require('util').promisify
 const { readFile } = require('fs')
 const readFileAsync = promisify(readFile)
-const resolveUrl = require('url').resolve
+// const resolveUrl = require('url').resolve
+const pathJoin = require('path').join
 const marked = require('marked')
 
 class Renderer extends marked.Renderer {
@@ -14,7 +15,7 @@ class Renderer extends marked.Renderer {
   image (href, title, text) {
     const imgBase = this.opts.imgBase
     if (typeof imgBase === 'string') {
-      href = resolveUrl(imgBase, text, href)
+      href = pathJoin(imgBase, href)
     }
 
     return super.image(href, title, text)
@@ -23,13 +24,9 @@ class Renderer extends marked.Renderer {
 
 const render = async (articlePath, opts) => {
   const content = await readFileAsync(articlePath, 'utf8')
-  return marked(content)
-}
-
-render.setOptions = ({ imgBase }) => {
-  marked.setOptions({
+  return marked(content, {
     renderer: new Renderer({
-      imgBase
+      imgBase: opts.imgBase
     })
   })
 }

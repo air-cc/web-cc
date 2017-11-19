@@ -1,11 +1,12 @@
 const promisify = require('util').promisify
 const {
-  readFile, readdir, writeFile, mkdir, createReadStream, createWriteStream
+  readFile, readdir, writeFile, mkdir, createReadStream, createWriteStream, stat
 } = require('fs')
 const readFileAsync = promisify(readFile)
 const readdirAsync = promisify(readdir)
 const writeFileAsync = promisify(writeFile)
 const mkdirAsync = promisify(mkdir)
+const statAsync = promisify(stat)
 const pathJoin = require('path').join
 const render = require('./render')
 
@@ -19,14 +20,18 @@ const pub = async (html, info) => {
   const mdFileName = `${name}.md`
   const infoFileName = 'info.json'
 
-  await mkdirAsync(dest)
+  await mkdirAsync(dest).catch((error) => {
+    if (error.code !== 'EEXIST') {
+      throw error
+    }
+  })
   await writeFileAsync(pathJoin(dest, `${name}.html`), html)
   await writeFileAsync(pathJoin(dest, infoFileName), JSON.stringify(info, 2, 2))
 
   const excepts = [mdFileName, infoFileName]
   const files = await readdirAsync(dir)
   const promises = files
-    .filter((fileName = '') => excepts.indexOf(fileName.toLowerCase()) >= 0)
+    .filter((fileName = '') => excepts.indexOf(fileName.toLowerCase()) < 0)
     .map((fileName) => {
       const origFilePath = pathJoin(dir, fileName)
       const destFilePath = pathJoin(dest, fileName)
@@ -52,17 +57,50 @@ const compiler = async (dir, opts = {destDir: ''}) => {
   const promises = files
     .map(async (fileName) => {
       const fullDir = pathJoin(dir, fileName)
-      const info = await readJsonFileAsync(pathJoin(fullDir, 'info.json'))
+      const info = await readJsonFileAsync(pathJoin(fullDir, 'info.json')).catch((err) => {
+        if (err.code === 'ENOENT') {
+          return {}
+        }
+
+        throw err
+      })
+
+      info.name = info.name || fileName
+      info.properties = info.properties || {}
+
+      if (!info.createdAt) {
+        const stat = await statAsync(pathJoin(fullDir, `${info.name}.md`))
+        info.createdAt = stat.birthtime.toLocaleString()
+      }
 
       info.dir = fullDir
       info.dest = pathJoin(destDir, info.name)
-      const html = await render(dir, opts)
+      info.imgBase = pathJoin(opts.imgBase, info.name)
+
+      const html = await render(pathJoin(fullDir, `${info.name}.md`), info)
       await pub(html, info)
+
+      return info
     })
 
-  await Promise.all(promises)
+  const infos = await Promise.all(promises)
+
+  await writeFileAsync(pathJoin(destDir, 'info.json'), JSON.stringify(infos, 2, 2))
 }
 
 compiler.render = render
 
 module.exports = compiler
+
+if (process.env.MD) {
+  const mdDir = pathJoin(__dirname, '../docs')
+  const destDir = pathJoin(__dirname, '../../public/docs')
+  const imgBase = `/static/docs/`
+
+  compiler(mdDir, {
+    destDir,
+    imgBase
+  }).then(() => {
+    console.log('markdown publish success')
+  }).catch((err) => console.log('markdown publish fail', err))
+}

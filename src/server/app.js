@@ -24,7 +24,7 @@ app.use(markdown({
   docs: pathJoin(__dirname, '../docs'),
   template: 'article',
   imgBase: `${urlPrefix}/docs/`,
-  distDir
+  distDir: pathJoin(distDir, 'docs')
 }))
 
 app.use(router.routes())
