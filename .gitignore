@@ -8,4 +8,4 @@ node_modules
 .vscode
 
 # Project
-src/public
+public

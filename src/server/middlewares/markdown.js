@@ -7,20 +7,20 @@
  */
 
 // const assert = require('assert')
-const promisify = require('util').promisify
 const pathJoin = require('path').join
-const {readFile} = require('fs')
-const readFileAsync = promisify(readFile)
-const marked = require('marked')
+const render = require('../../md-compiler').render
 
-module.exports = (opts) => {
-  const {docs, template} = opts
+module.exports = async (opts) => {
+  const {docs, template, imgBase = '', distDir = ''} = opts
+
+  render.setOptions({
+    imgBase
+  })
 
   return async (ctx, next) => {
-    ctx.markdown = async (article, opts) => {
-      const articlePath = pathJoin(docs, `${article}.md`)
-      const content = await readFileAsync(articlePath, 'utf8')
-      const articleHTML = marked(content)
+    ctx.markdown = async (article, opts = {distDir: distDir}) => {
+      const articlePath = pathJoin(docs, article, `${article}.md`)
+      const articleHTML = render(articlePath, opts)
 
       await ctx.render(template, {
         data: {

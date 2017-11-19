@@ -10,7 +10,7 @@ const config = require('./config')
 const app = new Koa()
 
 const urlPrefix = '/static'
-const distDir = pathJoin(__dirname, '../public')
+const distDir = pathJoin(__dirname, '../../public')
 
 app.use(render({
   pages: pathJoin(__dirname, '../client/pages'),
@@ -22,7 +22,9 @@ app.use(render({
 
 app.use(markdown({
   docs: pathJoin(__dirname, '../docs'),
-  template: 'article'
+  template: 'article',
+  imgBase: `${urlPrefix}/docs/`,
+  distDir
 }))
 
 app.use(router.routes())

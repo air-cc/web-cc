@@ -4,5 +4,5 @@
 # node v8.x
 
 npm install
-PORT=4000 & node src/dev
+PORT=4000 node dev.js
 ```
