@@ -105,6 +105,14 @@ const parser = async (componentDir) => {
   // assets
   // const assetsDir = pathJoin(componentDir, `assets`)
 
+  // data
+  const dataFilePath = pathJoin(componentDir, `${name}.json`)
+  if (await checkFile(dataFilePath)) {
+    component.data = await loadJsonAsync(dataFilePath)
+  } else {
+    component.data = {}
+  }
+
   return component
 }
 

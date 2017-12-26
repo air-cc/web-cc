@@ -1,0 +1,12 @@
+.pagination {
+  color: #777;
+}
+
+.pagination li {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.pagination em {
+  font-style: normal;
+}

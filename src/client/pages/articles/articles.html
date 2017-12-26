@@ -1,0 +1,13 @@
+<div class="archive">
+  <ul class="articles">
+    {{#each articles}}
+      <li>
+        <a href="/articles/{{name}}"></a>
+        <span class="title">{{name}}</span>
+        <span class="tag"><a href="/tags/{{properties.tag}}">{{properties.tag}}</a></span>
+        <span class="created-at">{{createdAt}}</span>
+      </li>
+    {{/each}}
+  </ul>
+  {{> pagination page=pageInfo.page total=pageInfo.total size=pageInfo.size count=pageInfo.count id="archive-nav"}}
+</div>

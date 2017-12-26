@@ -95,7 +95,7 @@ const jsCssParser = async ({component, urlPrefix, distDir}) => {
 const pageParser = async ({component, data, distDir, urlPrefix = '', cache}) => {
   // html
   const template = await templateCompiler(component, {cache})
-  const html = template(data)
+  const html = template(Object.assign(component.data, data))
 
   const {js, css} = await jsCssParser({component, distDir, urlPrefix})
 

@@ -1,0 +1,41 @@
+.series {
+  /* background-color: aqua; */
+}
+
+.series::after {
+  display: block;
+  content: '';
+  clear: left;
+}
+
+.series li {
+  box-sizing: border-box;
+  list-style-type: none;
+  height: 100px;
+  width: 360px;
+  max-width: 90%;
+  background-color: #f4f7f6;
+  color: #49c5b6;
+  margin: 4px 20px;
+  position: relative;
+  float: left;
+  border-radius: 10px;
+}
+
+.series li.useless {
+  color: #777;
+  background-color: #eee;
+}
+
+.series a {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.series .title {
+  font-size: 20px;
+  margin: 22px 0 10px 0;
+}

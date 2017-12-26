@@ -196,6 +196,8 @@ const compiler = async ({component, distDir, urlPrefix = ''}) => {
 
   const publicMap = await updatePublicMap(stats.toJson(), assets, pathJoin(distDir, 'resources-map.json'))
 
+  // 考虑将 component data 保存到 public 目录相应 page 下 data-map.json
+
   return {stats, publicMap}
 }
 

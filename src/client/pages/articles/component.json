@@ -1,5 +1,5 @@
 {
-  "name": "home",
+  "name": "articles",
   "version": "1.0.0",
   "dependencies": {
     "pagination": "~1.0.0"

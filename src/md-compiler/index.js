@@ -54,11 +54,11 @@ const compiler = async (dir, opts = {destDir: ''}) => {
   const files = await readdirAsync(dir)
   const {destDir} = opts
 
-  const promises = files
+  const promises = files.filter((fileName) => !/^\./.test(fileName))
     .map(async (fileName) => {
       const fullDir = pathJoin(dir, fileName)
       const info = await readJsonFileAsync(pathJoin(fullDir, 'info.json')).catch((err) => {
-        if (err.code === 'ENOENT') {
+        if (err.code === 'ENOENT' || err.code === 'ENOTDIR') {
           return {}
         }
 
@@ -80,7 +80,11 @@ const compiler = async (dir, opts = {destDir: ''}) => {
       const html = await render(pathJoin(fullDir, `${info.name}.md`), info)
       await pub(html, info)
 
-      return info
+      return {
+        name: info.name,
+        createdAt: info.createdAt,
+        properties: info.properties
+      }
     })
 
   const infos = await Promise.all(promises)

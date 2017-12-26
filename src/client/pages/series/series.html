@@ -1,0 +1,11 @@
+<ul class="series">
+  {{#each series}}
+    <li {{#unless link}}class="useless"{{/unless}}>
+      {{#if link}}
+        <a href="{{link}}"></a>
+      {{/if}}
+      <div class="title">{{title}}</div>
+      <div class="desc">{{desc}}</div>
+    </li>
+  {{/each}}
+</ul>

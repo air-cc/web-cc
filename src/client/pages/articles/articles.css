@@ -1,0 +1,47 @@
+.archive {
+  padding: 0 2%;
+  color: #202121;
+}
+
+.archive .articles li {
+  cursor: pointer;
+  list-style-type: none;
+  padding: 4px 6px;
+  font-size: 20px;
+  line-height: 46px;
+  text-align: left;
+  position: relative;
+}
+
+.archive .articles li > a {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.archive .articles li:nth-child(2n+1) {
+  background-color: #f4f7f6;
+}
+
+.archive .tag {
+  position: relative;
+  color: #49c5b6;
+  border: 1px #49c5b6 solid;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-left: 8px;
+  padding: 0 4px;
+}
+
+.archive .tag a {
+  color: #49c5b6;
+}
+
+.archive .created-at {
+  font-size: 16px;
+  position: absolute;
+  right: 6px;
+}
+

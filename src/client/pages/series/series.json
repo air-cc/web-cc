@@ -1,0 +1,19 @@
+{
+  "series": [
+    {
+      "title": "记录生活",
+      "desc": "为虚度的人生做一个解释！",
+      "link": "/tags/life"
+    },
+    {
+      "title": "数据结构与算法(JavaScript实现)",
+      "desc": "敬请期待！",
+      "link": ""
+    },
+    {
+      "title": "计算机网络",
+      "desc": "敬请期待！",
+      "link": ""
+    }
+  ]
+}
