@@ -28,7 +28,7 @@
 - Node 8.x
 - Koa 2.x
 - Handlebar
-- Less / PostCSS 
+- Sass / PostCSS 
 
 ### 辅助
 
