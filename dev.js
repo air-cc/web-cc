@@ -48,7 +48,8 @@ run().then(() => {
     compileMD().then(bs.reload)
   })
 
-  bs.watch(serverDir).on('change', () => {
-    console.log('need restart server')
-  })
+  // 通过 nodemon 检测
+  // bs.watch(serverDir).on('change', () => {
+  //   console.log('need restart server')
+  // })
 })
