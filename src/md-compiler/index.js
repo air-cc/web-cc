@@ -1,11 +1,12 @@
 const promisify = require('util').promisify
 const {
-  readFile, readdir, writeFile, mkdir, createReadStream, createWriteStream, stat
+  readFile, readdir, writeFile, createReadStream, createWriteStream, stat
 } = require('fs')
+const mkdirP = require('mkdirp')
 const readFileAsync = promisify(readFile)
 const readdirAsync = promisify(readdir)
 const writeFileAsync = promisify(writeFile)
-const mkdirAsync = promisify(mkdir)
+const mkdirPAsync = promisify(mkdirP)
 const statAsync = promisify(stat)
 const pathJoin = require('path').join
 const render = require('./render')
@@ -20,7 +21,7 @@ const pub = async (html, info) => {
   const mdFileName = `${name}.md`
   const infoFileName = 'info.json'
 
-  await mkdirAsync(dest).catch((error) => {
+  await mkdirPAsync(dest).catch((error) => {
     if (error.code !== 'EEXIST') {
       throw error
     }
