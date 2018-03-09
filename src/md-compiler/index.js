@@ -66,7 +66,8 @@ const compiler = async (dir, opts = {destDir: ''}) => {
         throw err
       })
 
-      info.name = info.name || fileName
+      info.name = fileName
+      info.title = info.title || fileName
       info.properties = info.properties || {}
 
       if (!info.createdAt) {
@@ -74,18 +75,16 @@ const compiler = async (dir, opts = {destDir: ''}) => {
         info.createdAt = stat.birthtime.toLocaleString()
       }
 
-      info.dir = fullDir
-      info.dest = pathJoin(destDir, info.name)
-      info.imgBase = pathJoin(opts.imgBase, info.name)
+      const data = Object.assign({}, info, {
+        dir: fullDir,
+        dest: pathJoin(destDir, info.name),
+        imgBase: pathJoin(opts.imgBase, info.name)
+      })
 
-      const html = await render(pathJoin(fullDir, `${info.name}.md`), info)
-      await pub(html, info)
+      const html = await render(pathJoin(fullDir, `${info.name}.md`), data)
+      await pub(html, data)
 
-      return {
-        name: info.name,
-        createdAt: info.createdAt,
-        properties: info.properties
-      }
+      return info
     })
 
   const infos = await Promise.all(promises)

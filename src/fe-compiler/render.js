@@ -128,6 +128,7 @@ const render = async (dir, {title = '', layout, cache, distDir = '', urlPrefix =
     distDir
   })
 
+  title = title || component.data.title || component.name
   const stylesheets = `${layoutjsCss.css}\r\n${css}`
   const scripts = `${layoutjsCss.js}\r\n${js}`
 
