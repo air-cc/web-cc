@@ -3,8 +3,8 @@ const stetic = require('koa-better-serve')
 const pathJoin = require('path').join
 const debug = require('debug')('good-web:app')
 const router = require('./router')
-const render = require('./middlewares/render')
-const markdown = require('./middlewares/markdown')
+const handlebars = require('./middlewares/render-hbs')
+const markdown = require('./middlewares/render-md')
 const config = require('./config')
 
 const app = new Koa()
@@ -12,7 +12,7 @@ const app = new Koa()
 const urlPrefix = '/static'
 const distDir = pathJoin(__dirname, '../../public')
 
-app.use(render({
+app.use(handlebars({
   pages: pathJoin(__dirname, '../client/pages'),
   layout: pathJoin(__dirname, '../client/common/components/layout'),
   distDir,

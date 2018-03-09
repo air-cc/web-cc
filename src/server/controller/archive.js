@@ -1,4 +1,4 @@
-const md = require('../middlewares/markdown')
+const md = require('../middlewares/render-md')
 
 module.exports = async (ctx) => {
   const {page = 1, size = 30} = ctx.query

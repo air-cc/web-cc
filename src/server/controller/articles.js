@@ -1,4 +1,4 @@
-const md = require('../middlewares/markdown')
+const md = require('../middlewares/render-md')
 
 module.exports = {
   async tag (ctx) {

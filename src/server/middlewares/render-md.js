@@ -2,7 +2,6 @@
  * 中间件 - markdown 文件渲染
  * 
  * TODO:
- * - markdown 文件的属性（分类/标签/创建时间）支持: 这里考虑在 docs 中使用 json 文件来描述
  * - 这里都是运行时到系统目录中查找文件，可优化
  */
 
@@ -38,8 +37,10 @@ const md = (opts) => {
     ctx.markdown = async (article, opts = {}) => {
       const dist = opts.distDir || distDir
       const articleHTML = await readFileAsync(pathJoin(dist, article, `${article}.html`), 'utf8')
+      const {title} = JSON.parse(await readFileAsync(pathJoin(dist, article, 'info.json'), 'utf8'))
 
       await ctx.render(template, {
+        title,
         data: {
           article: articleHTML
         }

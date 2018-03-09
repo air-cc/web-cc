@@ -30,8 +30,7 @@ module.exports = (opts) => {
       const typ = (typeof pageData)
       assert(typ === 'object', `pageData must be an object or undefined`)
 
-      const title = (typeof pageData.title === 'string') ? pageData.title : pageName
-      const {layout = defaultLayout, cache = defaultCache, data = {}} = pageData
+      const {title, layout = defaultLayout, cache = defaultCache, data = {}} = pageData
       // assert(layout, `no layout file found`)
 
       const dir = pathJoin(pagesDir, pageName)
