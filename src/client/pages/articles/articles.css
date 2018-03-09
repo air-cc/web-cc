@@ -1,6 +1,7 @@
 .archive {
   padding: 0 2%;
   color: #202121;
+  text-align: center;
 }
 
 .archive .articles li {
