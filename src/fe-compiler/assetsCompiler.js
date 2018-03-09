@@ -1,4 +1,5 @@
 const pathJoin = require('path').join
+const { copy } = require('fs-extra')
 const promisify = require('util').promisify
 const {readFile, writeFile} = require('fs')
 const readFileAsync = promisify(readFile)
@@ -181,6 +182,14 @@ const retrieve = (type, component) => {
   return searching(component)
 }
 
+const copyOtherAssets = (distDir, component) => {
+  const {dir, assets} = component
+
+  return Promise.all(assets.map(
+    (assetDir) => copy(assetDir, pathJoin(distDir, assetDir.replace(dir, '')))
+  ))
+}
+
 const compiler = async ({component, distDir, urlPrefix = ''}) => {
   const assets = ['js', 'css', 'html']
     .map((type) => retrieve(type, component))
@@ -196,9 +205,11 @@ const compiler = async ({component, distDir, urlPrefix = ''}) => {
 
   const publicMap = await updatePublicMap(stats.toJson(), assets, pathJoin(distDir, 'resources-map.json'))
 
+  const otherAssets = await copyOtherAssets(distDir, component)
+
   // 考虑将 component data 保存到 public 目录相应 page 下 data-map.json
 
-  return {stats, publicMap}
+  return { stats, publicMap, otherAssets }
 }
 
 module.exports = compiler

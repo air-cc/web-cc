@@ -1,8 +1,9 @@
 const assert = require('assert')
 const promisify = require('util').promisify
-const {readFile, stat} = require('fs')
+const {readFile, stat, readdir} = require('fs')
 const readFileAsync = promisify(readFile)
 const statAsync = promisify(stat)
+const readdirAsync = promisify(readdir)
 const pathJoin = require('path').join
 const debug = require('debug')('good-web:frontend:parser')
 
@@ -52,6 +53,7 @@ const componentIns = (des) => {
     html: '',
     js: '',
     css: '',
+    assets: [],
     deps: []
   })
 }
@@ -102,9 +104,6 @@ const parser = async (componentDir) => {
     component.css = cssFilePath
   }
 
-  // assets
-  // const assetsDir = pathJoin(componentDir, `assets`)
-
   // data
   const dataFilePath = pathJoin(componentDir, `${name}.json`)
   if (await checkFile(dataFilePath)) {
@@ -112,6 +111,13 @@ const parser = async (componentDir) => {
   } else {
     component.data = {}
   }
+
+  // assets
+  const dirs = await readdirAsync(componentDir)
+  const specificDirs = [htmlFilePath, jsFilePath, cssFilePath, dataFilePath]
+  component.assets = dirs
+    .filter((subDir) => !specificDirs.includes(subDir))
+    .map((subDir) => pathJoin(componentDir, subDir))
 
   return component
 }
