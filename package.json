@@ -5,8 +5,8 @@
   "main": "dest/server/app.js",
   "scripts": {
     "start": "node src/server/app.js",
-    "dev": "PORT=4000 ./node_modules/.bin/nodemon dev.js --watch src/server",
-    "build": "node build.js"
+    "dev": "PORT=4000 ./node_modules/.bin/nodemon ./build/dev.js --watch src/server",
+    "build": "node ./build/build.js"
   },
   "keywords": [],
   "author": "air-cc <c989692c@gmail.com>",
