@@ -24,7 +24,7 @@ async function compileMD () {
 }
 
 function build () {
-  return Promise.all([compileMD()])
+  return Promise.all([compileFE(), compileMD()])
 }
 
 if (module === require.main) {
