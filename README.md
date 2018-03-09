@@ -32,8 +32,7 @@
 
 ### 辅助
 
-- 打包：gulp & webpack 打包资源
-  基本目标：js/css/img 静态资源压缩；icon sprite 化；CDN 上传
+- 打包：webpack 打包资源，js/css/img 静态资源压缩；icon sprite 化；CDN 上传
 - 开发辅助：watch 功能，eslint，
 
 ## 项目结构
